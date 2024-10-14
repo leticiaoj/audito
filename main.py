@@ -15,60 +15,56 @@ def home():
 
 @app.route('/adm')
 def adm():
-    if logado == True:
+    if logado:
         with open('usuarios.json') as usuariosTemp:
             usuarios = json.load(usuariosTemp)
-
-        return render_template("administrador.html",usuarios=usuarios)
-    if logado == False:
+        return render_template("administrador.html", usuarios=usuarios)
+    else:
         return redirect('/')
 
-@app.route ('/login', methods=['POST'])
-def login ():
+@app.route('/login', methods=['POST'])
+def login():
     global logado
     nome = request.form.get('nome')
     senha = request.form.get('senha')
 
-    with open(usuarios.json) as usuariosTemp:
+    # Correção: colocar 'usuarios.json' entre aspas
+    with open('usuarios.json') as usuariosTemp:
         usuarios = json.load(usuariosTemp)
-        cont = 0
         for usuario in usuarios:
-            cont += 1
-
             if nome == 'adm' and senha == '000':
                 logado = True
                 return redirect('/adm')
             
             if usuario['nome'] == nome and usuario['senha'] == senha:
                 return render_template("usuarios.html")
-            
-            if cont >= len(usuarios):
-                flash('usuário inválido.')
-                return redirect ("/")
-            
-@app.route('/cadastrarUsuario', methods = ['POST'])
-def cadastrarUsuario ():
+        
+        # Se nenhum usuário for encontrado, exibe mensagem
+        flash('Usuário inválido.')
+        return redirect("/")
+
+@app.route('/cadastrarUsuario', methods=['POST'])
+def cadastrarUsuario():
     global logado
-    user = []
     nome = request.form.get('nome')
     senha = request.form.get('senha')
-    user = [
-        {
-            "nome": nome,
-            "senha": senha
-        }
-    ]
-    with open ('usuarios.json') as usuariosTemp:
+    user = {"nome": nome, "senha": senha}
+    
+    # Leitura do arquivo JSON
+    with open('usuarios.json') as usuariosTemp:
         usuarios = json.load(usuariosTemp)
 
-    usuarioNovo = usuarios + user
+    # Adicionar novo usuário
+    usuarios.append(user)
 
+    # Escrever no arquivo JSON
     with open('usuarios.json', 'w') as gravarTemp:
-        json.dump(usuarioNovo, gravarTemp, indent=4)
-        logado = True
-        flash (F'cadastro de {nome} efetuado!')
-        return redirect ('/adm')
+        json.dump(usuarios, gravarTemp, indent=4)
     
+    logado = True
+    flash(f'Cadastro de {nome} efetuado!')
+    return redirect('/adm')
+
 @app.route('/excluirUsuario', methods=['POST'])
 def excluirUsuario():
     global logado
@@ -76,26 +72,18 @@ def excluirUsuario():
     usuario = request.form.get('UsuarioPexcluir')
     usuarioDict = ast.literal_eval(usuario)
     nome = usuarioDict['nome']
+    
+    # Leitura e exclusão de usuário do JSON
     with open('usuarios.json') as usuariosTemp:
         usuariosJson = json.load(usuariosTemp)
-        for c in usuariosJson:
-            if c == usuarioDict:
-                usuariosJson.remove(usuarioDict) 
-                with open('usuarios.json', 'w') as usuarioAexcluir:
-                    json.dump(usuariosJson, usuarioAexcluir, indent=4)
-    flash(F'exclusão de {nome} realizada.')
-    return redirect ('/adm')
+        usuariosJson = [u for u in usuariosJson if u != usuarioDict]
 
+    # Reescrever o arquivo JSON atualizado
+    with open('usuarios.json', 'w') as usuarioAexcluir:
+        json.dump(usuariosJson, usuarioAexcluir, indent=4)
 
+    flash(f'Exclusão de {nome} realizada.')
+    return redirect('/adm')
 
-
-
-
-
-
-
-
-
-
-if __name__ in "__main__":
+if __name__ == "__main__":
     app.run(debug=True)

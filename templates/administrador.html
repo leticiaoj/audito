@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>audito</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/administrador.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -19,22 +19,22 @@
             {{mensagem[0]}}
         </div>
     {% endif %}
+        <h1 class="titulo">administração do sistema</h1>
 
     <div id="form_fundo">
-        <h1>bem-vindo ao audito, seu sistema de auditoria simplificada!</h1>
-        <h1>comece realizando o login:</h1>
+        <h1>cadastro de usuários</h1>
         <div id="form_frente">
-            <form action="/login" id="login" method="post">
+            <form action="/cadastrarUsuario" id="login" method="post">
                 <label for="nome">nome</label>
-                <input type="text" name="nome" id="nome" required placeholder="digite seu nome"><br>
+                <input type="text" name="nome" id="nome" required placeholder="nome do usuário"><br>
                 <label for="senha">senha</label>
-                <input type="password" name="senha" id="senha" required placeholder="digite sua senha"><br>
+                <input type="text" name="senha" id="senha" required placeholder="senha do usuário"><br>
                 <button type="submit" id="btn_login">
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
-                    entrar
+                    cadastrar
                 </button>
             </form>
         </div>
