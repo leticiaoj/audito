@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>audito</title>
+    <link rel="stylesheet" href="static/css/login.css">
+</head>
+
+<body>
+    <div id="form_fundo">
+        <h1>bem-vindo ao audito, seu sistema de auditoria simplificada!</h1>
+        <h1>comece realizando o login:</h1>
+        <div id="form_frente">
+            <form action="/login" id="login" method="post">
+                <label for="nome">nome</label>
+                <input type="text" name="nome" id="nome" required placeholder="digite seu nome"><br>
+                <label for="senha">senha</label>
+                <input type="password" name="senha" id="senha" required placeholder="digite sua senha"><br>
+                <button type="submit" id="btn_login">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    entrar
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
