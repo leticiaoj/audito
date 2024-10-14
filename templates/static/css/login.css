@@ -6,24 +6,25 @@ body{
     background-size: cover;
     background-attachment: fixed;
     display: block;
+    font-family: 'Poppins';
 }
 
 div#form_fundo {
     backdrop-filter: blur(10px);
     opacity: .9;
-    margin: 14% 25% 25% 25%;
+    margin: 11% 25% 25% 25%;
     text-align: center;
     font-weight: bold;
-    box-shadow: 2px 5px 5px burlywood;
+    box-shadow: 2px 5px 5px rgb(224, 233, 255);
 }
 
 div#form_frente {
-    background-color: blanchedalmond;
-    margin: 5px;
+    background-color: rgb(224, 233, 255);
+    margin: 10px;
     text-align: center;
     border-radius: 20px;
     font-weight: bold;
-    box-shadow: 2px 5px 5px blanchedalmond;
+    box-shadow: 2px 2px 5px 5px rgb(224, 233, 255);
     padding: 30px;
 }
 
@@ -32,16 +33,18 @@ label{
     font-weight: bold;
     border-radius: 10px;
     padding: 20px;
+    margin: 5px;
 }
 
 input{
     border-radius: 20px;
     font-size: 20px;
     font-weight: bold;
+    padding: 5px 10px 10px 10px;
 }
 
 input:focus{
-    background-color: blue;
+    background-color: beige;
     color: black;
 }
 
@@ -50,14 +53,15 @@ button{
     font-weight: bold;
     border-radius: 20px;
     background-color: black;
-    color: wheat;
-    margin-top: 10px;
+    color: rgb(224, 233, 255);
+    margin-top: 15px;
+    margin-bottom: 5px;
     padding: 10px;
     
 }
 
 button:hover {
-    background-color: whitesmoke;
+    background-color: rgb(224, 233, 255);
     color: black;
     font-size: 25px;
     cursor: pointer;
