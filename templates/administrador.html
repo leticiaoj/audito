@@ -7,19 +7,24 @@
     <title>audito</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/administrador.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
 
-    {% set mensagem = get_flashed_messages() %}
-    {% if mensagem %}
+    <div class="container">
+        {% set mensagem = get_flashed_messages() %}
+        {% if mensagem %}
         <div class="flash_alerta">
             {{mensagem[0]}}
         </div>
-    {% endif %}
-        <h1 class="titulo">administração do sistema</h1>
+        {% endif %}
+    </div>
+
+    <h1 class="titulo">administração do sistema</h1>
 
     <div id="form_fundo">
         <h1>cadastro de usuários</h1>
@@ -39,6 +44,30 @@
             </form>
         </div>
     </div>
+
+    <div id="form_fundo" class="listaUsuarios">
+        <h1>usuários cadastrados</h1>
+        <div id="form_frente">
+            <form action="/cadastrarUsuario" id="login" method="post">
+                {% if usuarios %}
+                {% for c in usuarios %}
+                <form action="/excluirUsuario" method="post">
+                    <ul>
+                        <input type="hidden" name="{{usuarioPexcluir}}" value="{{c}}">
+                        <li>nome: {{c['nome']}}</li>
+                        <li>senha: {{c['senha']}}</li>
+                    </ul>
+                    <button type="submit">excluir</button>
+                </form>
+                -------------------------------------
+                {% endfor %}
+                {% else %}
+                <h1>não há usuários cadastrados.</h1>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

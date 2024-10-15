@@ -1,7 +1,22 @@
 @import url(../css/login.css);
 
-#form_fundo {
+div#form_fundo {
     margin: 2% 50% 5% 5%;
+    position: absolute;
+}
+
+div#form_fundo.listaUsuarios {
+    margin: 2% 5% 5% 60%;
+    position: absolute;
+}
+
+div#form_frente.listaUsuarios {
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    overflow-y: auto;
+    height: 50px;
 }
 
 .titulo {

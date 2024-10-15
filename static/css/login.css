@@ -7,14 +7,22 @@ body{
     background-attachment: fixed;
     display: block;
     font-family: 'Poppins';
+    overflow: hidden; 
 }
 
-#flash_alerta{
+div.container{
+    text-align: center;
+}
+
+div.flash_alerta{
     background-color: blue;
     font-size: 20px;
     border-radius: 30px;
     font-weight: bold;
-    text-align: center;
+    align-items: center;
+    transition: ease-in 1s;
+    display: inline-block;
+    padding: 10px 20px;
 
 }
 

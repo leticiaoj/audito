@@ -1,6 +1,7 @@
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request, flash, send_from_directory
 import json
 import ast
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'LET'
@@ -22,25 +23,46 @@ def adm():
     else:
         return redirect('/')
 
+
+@app.route('/auditor')
+def auditor():
+    if logado == True:
+      arquivo = []
+      for documento in os.listdir('static/arquivos'):
+        arquivo.append(documento)
+      return render_template("auditor.html", arquivos=arquivo)
+    else:
+        return redirect('/')
+    
+@app.route('/usuarios')
+def usuarios():
+    if logado == True:
+      return render_template("usuarios.html")
+    else:
+        return redirect('/')
+
 @app.route('/login', methods=['POST'])
 def login():
     global logado
     nome = request.form.get('nome')
     senha = request.form.get('senha')
 
-    # Correção: colocar 'usuarios.json' entre aspas
     with open('usuarios.json') as usuariosTemp:
         usuarios = json.load(usuariosTemp)
         for usuario in usuarios:
             if nome == 'adm' and senha == '000':
                 logado = True
                 return redirect('/adm')
+
+            if nome == 'auditor' and senha == 'audit':
+                logado = True
+                return redirect('/auditor')
             
             if usuario['nome'] == nome and usuario['senha'] == senha:
+                logado = True
                 return render_template("usuarios.html")
         
-        # Se nenhum usuário for encontrado, exibe mensagem
-        flash('Usuário inválido.')
+        flash('usuário inválido.')
         return redirect("/")
 
 @app.route('/cadastrarUsuario', methods=['POST'])
@@ -49,41 +71,61 @@ def cadastrarUsuario():
     nome = request.form.get('nome')
     senha = request.form.get('senha')
     user = {"nome": nome, "senha": senha}
-    
-    # Leitura do arquivo JSON
+
     with open('usuarios.json') as usuariosTemp:
         usuarios = json.load(usuariosTemp)
 
-    # Adicionar novo usuário
     usuarios.append(user)
 
-    # Escrever no arquivo JSON
     with open('usuarios.json', 'w') as gravarTemp:
         json.dump(usuarios, gravarTemp, indent=4)
     
     logado = True
-    flash(f'Cadastro de {nome} efetuado!')
+    flash(f'cadastro de {nome} efetuado!')
     return redirect('/adm')
 
 @app.route('/excluirUsuario', methods=['POST'])
 def excluirUsuario():
     global logado
     logado = True
-    usuario = request.form.get('UsuarioPexcluir')
+    usuario = request.form.get('usuarioPexcluir')
     usuarioDict = ast.literal_eval(usuario)
     nome = usuarioDict['nome']
     
-    # Leitura e exclusão de usuário do JSON
+    #with open('usuarios.json') as usuariosTemp:
+    #    usuariosJson = json.load(usuariosTemp)
+    #    usuariosJson = [u for u in usuariosJson if u != usuarioDict]
+
     with open('usuarios.json') as usuariosTemp:
         usuariosJson = json.load(usuariosTemp)
-        usuariosJson = [u for u in usuariosJson if u != usuarioDict]
+        for c in usuariosJson:
+            if c == usuarioDict:
+                usuariosJson.remove(usuarioDict)
+                with open('usuarios.json', 'w') as usuarioAexcluir:
+                  json.dump(usuariosJson, usuarioAexcluir, indent=4)
 
-    # Reescrever o arquivo JSON atualizado
-    with open('usuarios.json', 'w') as usuarioAexcluir:
-        json.dump(usuariosJson, usuarioAexcluir, indent=4)
-
-    flash(f'Exclusão de {nome} realizada.')
+    flash(f'exclusão de {nome} realizada.')
     return redirect('/adm')
+
+
+@app.route("/upload", methods=['POST'])
+def upload():
+    global logado
+    logado = True
+
+    arquivo = request.files.get('documento')
+    nome_arquivo = arquivo.filename.replace(" ", "-")
+    arquivo.save(os.path.join('static/arquivos/', nome_arquivo))
+
+    flash('arquivo enviado!')
+    return redirect('/')
+
+@app.route('/download', methods=['POST'])
+def download():
+    nomeArquivo = request.form.get('arquivosParaDownload')
+
+    return send_from_directory('static/arquivos', nomeArquivo, as_attachment=True)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
