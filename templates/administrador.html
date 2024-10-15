@@ -48,23 +48,21 @@
     <div id="form_fundo" class="listaUsuarios">
         <h1>usuários cadastrados</h1>
         <div id="form_frente">
-            <form action="/cadastrarUsuario" id="login" method="post">
-                {% if usuarios %}
-                {% for c in usuarios %}
-                <form action="/excluirUsuario" method="post">
-                    <ul>
-                        <input type="hidden" name="{{usuarioPexcluir}}" value="{{c}}">
-                        <li>nome: {{c['nome']}}</li>
-                        <li>senha: {{c['senha']}}</li>
-                    </ul>
-                    <button type="submit">excluir</button>
-                </form>
-                -------------------------------------
-                {% endfor %}
-                {% else %}
-                <h1>não há usuários cadastrados.</h1>
-                {% endif %}
+            {% if usuarios %}
+            {% for c in usuarios %}
+            <form action="/excluirUsuario" method="post">
+                <ul>
+                    <input type="hidden" name="{{usuarioPexcluir}}" value="{{c}}">
+                    <li>nome: {{c['nome']}}</li>
+                    <li>senha: {{c['senha']}}</li>
+                </ul>
+                <button type="submit">excluir</button>
             </form>
+            -------------------------------------
+            {% endfor %}
+            {% else %}
+            <h1>não há usuários cadastrados.</h1>
+            {% endif %}
         </div>
     </div>
 
