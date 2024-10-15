@@ -118,7 +118,7 @@ def upload():
     arquivo.save(os.path.join('static/arquivos/', nome_arquivo))
 
     flash('arquivo enviado!')
-    return redirect('/')
+    return redirect('/usuarios')
 
 @app.route('/download', methods=['POST'])
 def download():
