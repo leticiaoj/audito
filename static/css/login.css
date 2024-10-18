@@ -29,7 +29,7 @@ div.flash_alerta{
 div#form_fundo {
     backdrop-filter: blur(10px);
     opacity: .9;
-    margin: 10% 25% 25% 25%;
+    margin: 7% 25% 25% 25%;
     text-align: center;
     font-weight: bold;
     box-shadow: 2px 5px 5px rgb(224, 233, 255);
