@@ -15,8 +15,9 @@ div#form_frente.listaUsuarios {
     font-weight: bold;
     font-size: 20px;
     text-decoration: none;
-    overflow-y: auto;
-    height: 50px;
+    overflow-y: scroll;
+    height: 100%;
+    max-height: 100%;
 }
 
 .titulo {
