@@ -13,6 +13,16 @@
     <link rel="icon" href="static\arquivos\audito_logo.png">
 </head>
 <body>
+
+    <div class="container">
+        {% set mensagem = get_flashed_messages() %}
+        {% if mensagem %}
+        <div class="flash_alerta">
+            {{mensagem[0]}}
+        </div>
+        {% endif %}
+    </div>
+    
     <h1 class="titulo">olá, funcionário!</h1>
 
     <div id="form_fundo" class="upload">

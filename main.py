@@ -50,11 +50,11 @@ def login():
     with open('usuarios.json') as usuariosTemp:
         usuarios = json.load(usuariosTemp)
         for usuario in usuarios:
-            if nome == 'adm' and senha == '000':
+            if nome == 'admin01' and senha == 'administrador':
                 logado = True
                 return redirect('/adm')
 
-            if nome == 'auditor' and senha == 'audit':
+            if nome == 'auditor01' and senha == 'auditoriando':
                 logado = True
                 return redirect('/auditor')
             

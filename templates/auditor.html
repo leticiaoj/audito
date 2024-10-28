@@ -15,6 +15,16 @@
 </head>
 
 <body>
+
+    <div class="container">
+        {% set mensagem = get_flashed_messages() %}
+        {% if mensagem %}
+        <div class="flash_alerta">
+            {{mensagem[0]}}
+        </div>
+        {% endif %}
+    </div>
+    
     <h1 class="titulo">olá, auditor!</h1>
 
     <div id="form_fundo">
