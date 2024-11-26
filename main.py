@@ -14,33 +14,6 @@ def home():
     logado = False
     return render_template('login.html')
 
-@app.route('/adm')
-def adm():
-    if logado:
-        with open('usuarios.json') as usuariosTemp:
-            usuarios = json.load(usuariosTemp)
-        return render_template("administrador.html", usuarios=usuarios)
-    else:
-        return redirect('/')
-
-
-@app.route('/auditor')
-def auditor():
-    if logado == True:
-      arquivo = []
-      for documento in os.listdir('static/arquivos'):
-        arquivo.append(documento)
-      return render_template("auditor.html", arquivos=arquivo)
-    else:
-        return redirect('/')
-    
-@app.route('/usuarios')
-def usuarios():
-    if logado == True:
-      return render_template("usuarios.html")
-    else:
-        return redirect('/')
-
 @app.route('/login', methods=['POST'])
 def login():
     global logado
@@ -64,6 +37,37 @@ def login():
         
         flash('usuário inválido.')
         return redirect("/")
+
+@app.route('/adm')
+def adm():
+    if logado:
+        with open('usuarios.json') as usuariosTemp:
+            usuarios = json.load(usuariosTemp)
+        return render_template("administrador.html", usuarios=usuarios)
+    else:
+        return redirect('/')
+
+
+@app.route('/auditor')
+def auditor():
+    if logado == True:
+      arquivo = []
+      for documento in os.listdir('static/arquivos-funcionario'):
+        arquivo.append(documento)
+      return render_template("auditor.html", arquivos=arquivo)
+    else:
+        return redirect('/')
+    
+@app.route('/usuarios')
+def usuarios():
+    if logado == True:
+      arquivo = []
+      for documento in os.listdir('static/arquivos-auditor'):
+          arquivo.append(documento)
+      return render_template("usuarios.html", arquivos=arquivo)
+    else:
+        return redirect('/')
+
 
 @app.route('/cadastrarUsuario', methods=['POST'])
 def cadastrarUsuario():
@@ -108,23 +112,43 @@ def excluirUsuario():
     return redirect('/adm')
 
 
-@app.route("/upload", methods=['POST'])
-def upload():
+@app.route("/upload-funcionario", methods=['POST'])
+def uploadf():
     global logado
     logado = True
 
     arquivo = request.files.get('documento')
     nome_arquivo = arquivo.filename.replace(" ", "-")
-    arquivo.save(os.path.join('static/arquivos/', nome_arquivo))
+    arquivo.save(os.path.join('static/arquivos-funcionario/', nome_arquivo))
 
     flash('arquivo enviado!')
     return redirect('/usuarios')
 
-@app.route('/download', methods=['POST'])
-def download():
+@app.route('/download-funcionario', methods=['POST'])
+def downloadf():
     nomeArquivo = request.form.get('arquivosParaDownload')
 
-    return send_from_directory('static/arquivos', nomeArquivo, as_attachment=True)
+    return send_from_directory('static/arquivos-funcionario', nomeArquivo, as_attachment=True)
+
+
+
+@app.route("/upload-auditor", methods=['POST'])
+def uploada():
+    global logado
+    logado = True
+
+    arquivo = request.files.get('documento')
+    nome_arquivo = arquivo.filename.replace(" ", "-")
+    arquivo.save(os.path.join('static/arquivos-auditor/', nome_arquivo))
+
+    flash('arquivo enviado!')
+    return redirect('/usuarios')
+
+@app.route('/download-auditor', methods=['POST'])
+def downloada():
+    nomeArquivo = request.form.get('arquivosParaDownload')
+
+    return send_from_directory('static/arquivos-auditor', nomeArquivo, as_attachment=True)
 
 
 if __name__ == "__main__":

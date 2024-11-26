@@ -27,23 +27,34 @@
     
     <h1 class="titulo">olá, auditor!</h1>
 
-    <div id="form_fundo">
-        <h1>arquivos recebidos para auditoria</h1>
+        <div id="form_fundo">
+            <h1>arquivos recebidos para auditoria</h1>
+            <div id="form_frente">
+
+                {% if arquivos %}
+                <form action="download-funcionario" method="post">
+                    <select name="arquivosParaDownload" id="arquivosParaDownload">
+                        {% for documento in arquivos%}
+                            <option value="{{documento}}">{{documento}}</option>
+                        {% endfor %}
+                    </select><br><br><br>
+                    <button type="submit">baixar</button>
+                </form>
+                {% else %}
+                    <h2>não há arquivos para auditar</h2>
+                {% endif %}
+
+            </div>
+        </div>
+
+    <div id="form_fundo" class="upload">
+        <h1>envie um arquivo para o funcionário</h1>
+        <h3>identifique os pontos e onde foram identificados.</h3>
         <div id="form_frente">
-
-            {% if arquivos %}
-            <form action="download" method="post">
-                <select name="arquivosParaDownload" id="arquivosParaDownload">
-                    {% for documento in arquivos%}
-                        <option value="{{documento}}">{{documento}}</option>
-                    {% endfor %}
-                </select><br><br><br>
-                <button type="submit">baixar</button>
+            <form action="/upload-auditor" method="post" enctype="multipart/form-data">
+                <input type="file" name="documento" id="documento"><br><br><br>
+                <button type="submit">enviar</button>
             </form>
-            {% else %}
-                <h2>não há arquivos para auditar</h2>
-            {% endif %}
-
         </div>
     </div>
 
